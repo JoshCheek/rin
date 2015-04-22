@@ -8,7 +8,7 @@ spec_helpers = Module.new do
     end
   end
 
-  def runs!(*program, out:"", err:"", status:0)
+  def runs!(*program, out://, err:"", status:0)
     actual_out, actual_err, actual_status = Open3.capture3(*program)
 
     expect(actual_err).to matcher_for(err)
@@ -58,7 +58,15 @@ RSpec.describe 'rin' do
                                out:    ''
     end
 
-    # invalid base
+    it 'notifies you if you choose an invalid base' do
+      runs! 'rin', '-36', '1', status: 0
+      runs! 'rin', '-37', '1', status: 1,
+                               err:    /invalid base/i,
+                               out:    ''
+    end
+
+    it 'notifies you if you supply a nonexistent arg'
+      # rin - '1'
   end
 end
 

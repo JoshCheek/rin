@@ -43,7 +43,13 @@ elsif !program
   exit 1
 else
   require 'rin'
-  rin.instance_eval { @base = base }
-  result = binding.eval program, '-e'
-  p result if print_result
+  begin
+    rin.base base do
+      result = binding.eval program, '-e'
+      p result if print_result
+    end
+  rescue ArgumentError => e
+    $stderr.puts e.message
+    exit 1
+  end
 end

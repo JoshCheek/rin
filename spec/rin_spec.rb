@@ -27,8 +27,8 @@ RSpec.describe 'rin' do
     end
 
     it 'raises the ArgumentError that to_s would, if given an invalid base' do
-      expect { 15.to_s 37 }.to raise_error ArgumentError, /invalid/
-      expect { rin.base(37) { nil } }.to raise_error ArgumentError, /invalid/
+      expect { 15.to_s 37 }.to raise_error ArgumentError, /invalid/i
+      expect { rin.base(37) { nil } }.to raise_error ArgumentError, /invalid/i
     end
   end
 

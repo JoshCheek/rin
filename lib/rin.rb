@@ -95,6 +95,8 @@ class Rin
 
   def validate_base!(base)
     1.to_s base
+  rescue ArgumentError
+    raise ArgumentError, "Invalid base: #{base.inspect}"
   end
 end
 
