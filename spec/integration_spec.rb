@@ -2,12 +2,12 @@ require 'spec_helper'
 
 
 RSpec.describe 'rin' do
-  it 'prints whatever the script evaluates to' do
-    runs! 'rin', '"hello"', out: "hello\n"
+  it 'prints the inspection of whatever the script evaluates to' do
+    runs! 'rin', '"hello"', out: %'"hello"\n'
   end
 
   it 'sets __FILE__ to "-e", like Ruby\'s -e' do
-    runs! 'rin', '__FILE__', out: "-e\n"
+    runs! 'rin', '__FILE__', out: %'"-e"\n'
   end
 
   it 'accepts preferred base as flags' do
