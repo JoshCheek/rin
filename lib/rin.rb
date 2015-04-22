@@ -7,8 +7,6 @@ class Rin
     @instance ||= new(10)
   end
 
-  attr_reader :base
-
   def initialize(base)
     @base = base
     Fixnum.class_eval do
@@ -16,6 +14,13 @@ class Rin
         Rin.instance.inspect_num self
       end
     end
+  end
+
+  # uhm... returns the base if no base is given
+  # if base is given, it sets the base to that and calls the block
+  def base(set_base=false, &block)
+    return @base unless set_base
+    temporary_base set_base, &block
   end
 
   def inspect_num(n)

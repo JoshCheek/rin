@@ -2,9 +2,17 @@ require 'spec_helper'
 require 'rin'
 
 RSpec.describe 'rin' do
-  specify 'rin always returns the same object' do
+  specify 'always returns the same object' do
     # call it under various different `self`s
     expect(rin).to equal Object.new.instance_eval { rin }
+  end
+
+  describe '.base(n) { ... }' do
+    specify '.base(n) { ... } allows for arbitrary base overrides' do
+      twenty_four_base_thirteen =
+        rin.base(13) { (12 + 12).inspect }
+      expect(twenty_four_base_thirteen).to eq '1B'
+    end
   end
 
   def self.test_base(basename, base, tests)
@@ -51,8 +59,8 @@ RSpec.describe 'rin' do
     expect(rin.hex { 'zomg' }).to eq 'zomg'
   end
 
-  it 'allows for arbitrary base overrides'
   it 'works for bignums'
   it 'supports nested overrides'
   it 'can be enabled and disabled'
+
 end
