@@ -32,7 +32,7 @@ end
 
 RSpec.describe 'ruby -rin -e' do
   it 'defaults the base to hex' do
-    runs! 'ruby', '-rin', '-e', '"7 + 7"', out: "E\n"
+    runs! 'ruby', '-rin', '-e', 'p 7 + 7', out: "E\n"
   end
 
   it 'translates things that are probably numbers into the correct base'

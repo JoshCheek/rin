@@ -7,6 +7,8 @@ class Rin
     @instance ||= new(10)
   end
 
+  attr_reader :base
+
   def initialize(base)
     @base = base
     Fixnum.class_eval do
@@ -61,3 +63,5 @@ class Rin
     @base = initial_base
   end
 end
+
+rin.hex! if $0 == '-e' # stupid that accessing the var turns it on

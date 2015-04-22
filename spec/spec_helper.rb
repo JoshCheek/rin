@@ -9,8 +9,10 @@ module SpecHelpers
   end
 end
 
-bin_path    = File.expand_path '../bin', __dir__
-ENV['PATH'] = "#{bin_path}:#{ENV['PATH']}"
+lib_path       = File.expand_path '../lib', __dir__
+bin_path       = File.expand_path '../bin', __dir__
+ENV['PATH']    = "#{bin_path}:#{ENV['PATH']}"
+ENV['RUBYOPT'] = "-I #{lib_path} #{ENV['RUBYOPT']}"
 
 RSpec.configure do |config|
   config.include SpecHelpers
