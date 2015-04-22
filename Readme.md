@@ -11,7 +11,7 @@ Prints whatever the script evaluates to.
 Default inspect is hex.
 
 ```sh
-$ rin 'AA + 11'
+$ rin '170 + 17'
 BB
 ```
 
@@ -19,11 +19,10 @@ Can be told what base to use by passing the base as a flag.
 
 ```sh
 $ rin -8 '7 + 7'
+16
 ```
 
-You can put whatever Ruby you want in there,
-It has a naive preprocessor that swaps them to the correct values.
-
+You can put whatever Ruby you want in there.
 
 From a Ruby commandline script
 ------------------------------
@@ -72,13 +71,19 @@ Other things that could be fun
 But that I don't intend to do,
 unless I use this much.
 
-* exit statuses be meaningful
-  eg `rin 'BB == (AA + 11)` exits with 0
-* `0d123` for decimal
-* Case insensitive
 * env var for for config:
   * preferred base
   * preferred format (eg uppercase/lowercase/whatev)
 * Support Ruby's executable arguments
 * Support `String#to_i`
 * Support `[1..100].map(&Rin.hex)`
+* It has a naive preprocessor that swaps them to the correct values.
+  Eventually would be nice to get this:
+  ```sh
+  $ rin 'AA + 11'
+  BB
+  ```
+  * exit statuses be meaningful
+    eg `rin 'BB == (AA + 11)` exits with 0
+  * `0d123` for decimal
+  * Case insensitive
