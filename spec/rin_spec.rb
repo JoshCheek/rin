@@ -17,7 +17,14 @@ RSpec.describe 'rin' do
       end
     end
 
-    specify "#{basename}! sets the inspect to #{base} permanently"
+    specify "#{basename}! sets the inspect to #{base} permanently" do
+      tests.each do |int, (dec_inspect, base_inspect)|
+        expect(int.inspect).to eq dec_inspect
+        rin.__send__ "#{basename}!"
+        expect(int.inspect).to eq base_inspect
+        rin.dec!
+      end
+    end
   end
 
   test_base 'hex', 16, 15 => ['15', 'F']

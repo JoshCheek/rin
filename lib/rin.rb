@@ -21,24 +21,40 @@ class Rin
   end
 
   def hex(&block)
-    temporary_override 16, &block
+    temporary_base 16, &block
+  end
+
+  def hex!
+    @base = 16
   end
 
   def oct(&block)
-    temporary_override 8, &block
+    temporary_base 8, &block
+  end
+
+  def oct!
+    @base = 8
   end
 
   def bin(&block)
-    temporary_override 2, &block
+    temporary_base 2, &block
+  end
+
+  def bin!
+    @base = 2
   end
 
   def dec(&block)
-    temporary_override 10, &block
+    temporary_base 10, &block
+  end
+
+  def dec!
+    @base = 10
   end
 
   private
 
-  def temporary_override(overriden_base, &block)
+  def temporary_base(overriden_base, &block)
     initial_base = @base
     @base = overriden_base
     block.call
