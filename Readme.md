@@ -82,3 +82,5 @@ unless I use this much.
 * env var for for config:
   * preferred base
   * preferred format (eg uppercase/lowercase/whatev)
+* Support Ruby's executable arguments
+* Support `String#to_i`
