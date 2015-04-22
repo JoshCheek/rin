@@ -1,25 +1,39 @@
-require 'open3'
+require 'spec_helper'
 
 
 RSpec.describe 'rin' do
-  it 'prints whatever the script evaluates to'
-    # rin '"hello"' // hello
-  it 'sets __FILE__ to "-e", like Ruby\'s -e'
-    # rin '__FILE__' // -e
-  it 'accepts preferred base as flags'
-    # rin -8 '7 + 7' // 16
-  it 'defaults the base to hex'
-    # rin '7 + 7' // e
+  it 'prints whatever the script evaluates to' do
+    runs! 'rin', '"hello"', out: "hello\n"
+  end
+
+  it 'sets __FILE__ to "-e", like Ruby\'s -e' do
+    runs! 'rin', '__FILE__', out: "-e\n"
+  end
+
+  it 'accepts preferred base as flags' do
+    runs! 'rin', '-8', '7 + 7', out: "16\n"
+  end
+
+  it 'defaults the base to hex' do
+    runs! 'rin', '7 + 7', out: "E\n"
+  end
+
   it 'translates things that are probably numbers into the correct base'
-  specify '-P turns off autoprinting'
-    # rin -P '1+1' //
+
+  specify '-P turns off autoprinting' do
+    runs! 'rin', '-P', '1+1', out: ''
+  end
 end
 
 
 RSpec.describe 'ruby -rin -e' do
-  it 'accepts preferred base as flags'
-    # rin -8 '7 + 7' // 16
-  it 'defaults the base to hex'
-    # rin '7 + 7' // e
+  it 'accepts preferred base as flags' do
+    runs! 'ruby', '-rin', '-8', '-e', '"7 + 7"', out: "16\n"
+  end
+
+  it 'defaults the base to hex' do
+    runs! 'ruby', '-rin', '-e', '"7 + 7"', out: "E\n"
+  end
+
   it 'translates things that are probably numbers into the correct base'
 end
