@@ -65,8 +65,11 @@ RSpec.describe 'rin' do
                                out:    ''
     end
 
-    it 'notifies you if you supply a nonexistent arg'
-      # rin - '1'
+    it 'notifies you if you supply an unknown arg' do
+      runs! 'rin', '-', '1', status: 1,
+                             err:    /unknown arg.*?"-"/i,
+                             out:    ''
+    end
   end
 end
 
