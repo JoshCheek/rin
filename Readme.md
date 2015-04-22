@@ -1,5 +1,5 @@
-Ruby Inspect Numbers
-====================
+Rin: Inspects Ruby Integers
+===========================
 
 Change the base that numbers display with in Ruby.
 
