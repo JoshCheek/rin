@@ -4,18 +4,33 @@ end
 
 class Rin
   def self.instance
-    @instance ||= new(10)
+    @instance ||= begin
+      instance = new(10)
+      instance.enable!
+      instance
+    end
   end
 
   def initialize(base)
     @base = base
-    override = Proc.new do
-      define_method :inspect do
-        Rin.instance.inspect_num self
-      end
+    @inspects = {
+      Fixnum => Fixnum.instance_method(:inspect),
+      Bignum => Bignum.instance_method(:inspect),
+    }
+  end
+
+  def disable!
+    @inspects.each do |klass, original|
+      define_inspect klass, original
     end
-    Fixnum.class_eval &override
-    Bignum.class_eval &override
+  end
+
+  def enable!
+    @inspects.each do |klass, _original|
+      define_inspect klass, Proc.new {
+        Rin.instance.inspect_num self
+      }
+    end
   end
 
   # uhm... returns the base if no base is given
@@ -62,6 +77,12 @@ class Rin
   end
 
   private
+
+  def define_inspect(klass, method_def)
+    klass.class_eval do
+      define_method :inspect, method_def
+    end
+  end
 
   def temporary_base(overriden_base, &block)
     initial_base = @base

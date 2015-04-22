@@ -13,6 +13,16 @@ RSpec.describe 'rin' do
         rin.base(13) { (12 + 12).inspect }
       expect(twenty_four_base_thirteen).to eq '1B'
     end
+
+    it 'resets the base on .<base> { ... }, even if the block raises an exception' do
+      expect {
+        rin.hex do
+          expect(rin.base).to eq 16
+          raise 'zomg'
+        end
+      }.to raise_error RuntimeError, 'zomg'
+      expect(rin.base).to eq 10
+    end
   end
 
   def self.test_base(basename, base, tests)
@@ -45,16 +55,6 @@ RSpec.describe 'rin' do
     expect(rin.base).to eq 10
   end
 
-  it 'resets the base on .<base> { ... }, even if the block raises an exception' do
-    expect {
-      rin.hex do
-        expect(rin.base).to eq 16
-        raise 'zomg'
-      end
-    }.to raise_error RuntimeError, 'zomg'
-    expect(rin.base).to eq 10
-  end
-
   it 'returns the block value on .<base>' do
     expect(rin.hex { 'zomg' }).to eq 'zomg'
   end
@@ -66,6 +66,23 @@ RSpec.describe 'rin' do
       .to eq n.to_s(16).upcase
   end
 
-  it 'supports nested overrides'
-  it 'can be enabled and disabled'
+  it 'supports nested overrides' do
+    expect(15.inspect).to eq '15'
+    rin.hex do
+      expect(15.inspect).to eq 'F'
+      rin.oct { expect(15.inspect).to eq '17' }
+      expect(15.inspect).to eq 'F'
+    end
+    expect(15.inspect).to eq '15'
+  end
+
+  it 'can be enabled and disabled' do
+    rin.hex!
+    expect(15.inspect).to eq 'F'
+    rin.disable!
+    expect(15.inspect).to eq '15'
+    rin.enable!
+    expect(15.inspect).to eq 'F'
+    rin.dec!
+  end
 end
