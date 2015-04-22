@@ -8,7 +8,12 @@ spec_helpers = Module.new do
     end
   end
 
-  def runs!(*program, out://, err:"", status:0)
+  def runs!(*program)
+    opts   = program.pop if program.last.kind_of? Hash
+    out    = opts.fetch :out,    //
+    err    = opts.fetch :err,    ""
+    status = opts.fetch :status, 0
+
     actual_out, actual_err, actual_status = Open3.capture3(*program)
 
     expect(actual_err).to matcher_for(err)
