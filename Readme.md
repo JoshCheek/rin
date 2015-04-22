@@ -35,7 +35,7 @@ or to the base of the first argument to the script.
 $ ruby -rin -e 'p 15'
 0xF
 
-$ ruby -rin -e 'p 15' 8
+$ ruby -rin -e 'p 15' -8
 017
 ```
 
@@ -68,3 +68,17 @@ rin.hex!
 rin.dec!
 15 # => 15
 ```
+
+Other things that could be fun
+------------------------------
+
+But that I don't intend to do,
+unless I use this much.
+
+* exit statuses be meaningful
+  eg `rin 'BB == (AA + 11)` exits with 0
+* `0d123` for decimal
+* Case insensitive
+* env var for for config:
+  * preferred base
+  * preferred format (eg uppercase/lowercase/whatev)
