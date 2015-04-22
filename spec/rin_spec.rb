@@ -2,12 +2,13 @@ require 'spec_helper'
 require 'rin'
 
 RSpec.describe 'rin' do
-  # rin.hex { 15 }  # => "0xF"
-  # rin.oct { 15 }  # => "017"
-  # rin.bin { 15 }  # => "0b1111"
-  # rin.dec { 15 }  # => "15"
+  specify 'rin always returns the same object' do
+    # call it under various different `self`s
+    expect(rin).to equal Object.new.instance_eval { rin }
+  end
+
   def self.test_base(basename, base, tests)
-    specify "#{basename} { ... } sets the inspect to base #{base} within the block" do
+    specify ".#{basename} { ... } sets the inspect to base #{base} within the block" do
       tests.each do |int, (dec_inspect, base_inspect)|
         expect(int.inspect).to eq dec_inspect
         rin.__send__ basename do
@@ -17,7 +18,7 @@ RSpec.describe 'rin' do
       end
     end
 
-    specify "#{basename}! sets the inspect to #{base} permanently" do
+    specify ".#{basename}! sets the inspect to #{base} permanently" do
       tests.each do |int, (dec_inspect, base_inspect)|
         expect(int.inspect).to eq dec_inspect
         rin.__send__ "#{basename}!"
@@ -31,7 +32,27 @@ RSpec.describe 'rin' do
   test_base 'oct',  8, 15 => ['15', '17']
   test_base 'bin',  2, 10 => ['10', '1010']
   test_base 'dec', 10, 15 => ['15', '15']
-  # when the block raises an exception
-  # works for bignums
-  # can have nested overrides
+
+  it 'exposes the current base' do
+    expect(rin.base).to eq 10
+  end
+
+  it 'resets the base on .<base> { ... }, even if the block raises an exception' do
+    expect {
+      rin.hex do
+        expect(rin.base).to eq 16
+        raise 'zomg'
+      end
+    }.to raise_error RuntimeError, 'zomg'
+    expect(rin.base).to eq 10
+  end
+
+  it 'returns the block value on .<base>' do
+    expect(rin.hex { 'zomg' }).to eq 'zomg'
+  end
+
+  it 'allows for arbitrary base overrides'
+  it 'works for bignums'
+  it 'supports nested overrides'
+  it 'can be enabled and disabled'
 end

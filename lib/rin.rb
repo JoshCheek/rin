@@ -60,6 +60,7 @@ class Rin
     initial_base = @base
     @base = overriden_base
     block.call
+  ensure
     @base = initial_base
   end
 end
