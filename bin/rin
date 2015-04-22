@@ -1,8 +1,19 @@
 #!/usr/bin/env ruby
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'rin'
 
-program = ARGV[0]
-result  = binding.eval program, '-e'
+program = ''
+base    = 16
+
+ARGV.each do |arg|
+  if arg =~ /^-(\d+)$/
+    base = $1.to_i
+  else
+    program = arg
+  end
+end
+
+require 'rin'
+result = binding.eval program, '-e'
+rin.instance_eval { @base = base }
 p result

@@ -1,5 +1,8 @@
 require 'spec_helper'
 
+# error cases:
+#   no program
+#   invalid base
 
 RSpec.describe 'rin' do
   it 'prints the inspection of whatever the script evaluates to' do
