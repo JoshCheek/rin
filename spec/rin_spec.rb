@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'rin'
 
+# base!
+
 RSpec.describe 'rin' do
   specify 'always returns the same object' do
     # call it under various different `self`s
@@ -22,6 +24,11 @@ RSpec.describe 'rin' do
         end
       }.to raise_error RuntimeError, 'zomg'
       expect(rin.base).to eq 10
+    end
+
+    it 'raises the ArgumentError that to_s would, if given an invalid base' do
+      expect { 15.to_s 37 }.to raise_error ArgumentError, /invalid/
+      expect { rin.base(37) { nil } }.to raise_error ArgumentError, /invalid/
     end
   end
 

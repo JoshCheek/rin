@@ -85,11 +85,16 @@ class Rin
   end
 
   def temporary_base(overriden_base, &block)
+    validate_base! overriden_base
     initial_base = @base
     @base = overriden_base
     block.call
   ensure
     @base = initial_base
+  end
+
+  def validate_base!(base)
+    1.to_s base
   end
 end
 

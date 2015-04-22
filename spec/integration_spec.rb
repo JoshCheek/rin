@@ -3,7 +3,6 @@ require 'spec_helper'
 # error cases:
 #   no program
 #   invalid base
-# -h / --help
 
 RSpec.describe 'rin' do
   it 'prints the inspection of whatever the script evaluates to' do
@@ -27,6 +26,12 @@ RSpec.describe 'rin' do
   specify '-P turns off autoprinting' do
     runs! 'rin', '-P', '1+1', out: ''
   end
+
+  it 'sets the base before printing' do
+    runs! 'rin', '15.inspect', out: %'"F"\n'
+  end
+
+  it 'prints help on -h and --help'
 end
 
 
