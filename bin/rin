@@ -2,11 +2,15 @@
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-program = ''
-base    = 16
+program      = ''
+base         = 16
+print_result = true
 
 ARGV.each do |arg|
-  if arg =~ /^-(\d+)$/
+  case arg
+  when '-P'
+    print_result = false
+  when /^-(\d+)$/
     base = $1.to_i
   else
     program = arg
@@ -14,6 +18,6 @@ ARGV.each do |arg|
 end
 
 require 'rin'
-result = binding.eval program, '-e'
 rin.instance_eval { @base = base }
-p result
+result = binding.eval program, '-e'
+p result if print_result
