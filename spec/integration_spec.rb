@@ -31,7 +31,10 @@ RSpec.describe 'rin' do
     runs! 'rin', '15.inspect', out: %'"F"\n'
   end
 
-  it 'prints help on -h and --help'
+  it 'prints help on -h and --help' do
+    runs! 'rin', '-h',     out: /usage/i
+    runs! 'rin', '--help', out: /usage/i
+  end
 end
 
 

@@ -1,10 +1,18 @@
 require 'open3'
 
 module SpecHelpers
+  def matcher_for(str_or_regex)
+    case str_or_regex
+    when Regexp then match str_or_regex
+    else             eq    str_or_regex
+    end
+  end
+
   def runs!(*program, out:"", err:"", status:0)
     actual_out, actual_err, actual_status = Open3.capture3(*program)
-    expect(actual_err).to eq err # err first, for better feedback
-    expect(actual_out).to eq out
+
+    expect(actual_err).to matcher_for(err)
+    expect(actual_out).to matcher_for(out)
     expect(actual_status.exitstatus).to eq status
   end
 end

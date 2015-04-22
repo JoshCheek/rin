@@ -5,11 +5,14 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 program      = ''
 base         = 16
 print_result = true
+print_help   = false
 
 ARGV.each do |arg|
   case arg
   when '-P'
     print_result = false
+  when '-h', '--help'
+    print_help = true
   when /^-(\d+)$/
     base = $1.to_i
   else
@@ -17,7 +20,27 @@ ARGV.each do |arg|
   end
 end
 
-require 'rin'
-rin.instance_eval { @base = base }
-result = binding.eval program, '-e'
-p result if print_result
+if print_help
+  puts "Usage: rin [-base] [-P] [-h] program"
+  puts ""
+  puts "Synopsis:"
+  puts "  Inspects Ruby Integers"
+  puts ""
+  puts "Examples:"
+  puts "  $ rin '7+8'    # prints \"E\""
+  puts "  $ rin -8 '7+2' # prints \"11\""
+  puts "  Instead of printing, write to a file"
+  puts "    $ rin -P 'File.write \"out\", (7+8).inspect'"
+  puts ""
+  puts "Flags:"
+  puts "  -base sets the base to that number"
+  puts "  defaults to 16 (hex)"
+  puts "  eg: -2 for binary, -8 for octal"
+  puts ""
+  puts "  -P    turns off program result autoprinting"
+else
+  require 'rin'
+  rin.instance_eval { @base = base }
+  result = binding.eval program, '-e'
+  p result if print_result
+end
