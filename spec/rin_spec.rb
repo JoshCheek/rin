@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'rin'
 
 RSpec.describe 'rin' do
