@@ -90,7 +90,7 @@ class Rin
     @base = overriden_base
     block.call
   ensure
-    @base = initial_base
+    @base = initial_base if initial_base # don't reset to nil, when error is raised
   end
 
   def validate_base!(base)

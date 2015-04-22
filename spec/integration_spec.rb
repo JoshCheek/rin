@@ -17,7 +17,7 @@ spec_helpers = Module.new do
   end
 end
 
-RSpec.describe 'rin' do
+RSpec.describe '$ rin' do
   include spec_helpers
 
   it 'prints the inspection of whatever the script evaluates to' do
@@ -74,7 +74,7 @@ RSpec.describe 'rin' do
 end
 
 
-RSpec.describe 'ruby -rin -e' do
+RSpec.describe '$ ruby -rin -e' do
   include spec_helpers
 
   it 'defaults the base to hex' do

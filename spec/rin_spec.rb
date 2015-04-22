@@ -29,34 +29,37 @@ RSpec.describe 'rin' do
     it 'raises the ArgumentError that to_s would, if given an invalid base' do
       expect { 15.to_s 37 }.to raise_error ArgumentError, /invalid/i
       expect { rin.base(37) { nil } }.to raise_error ArgumentError, /invalid/i
+      expect(rin.base).to eq 10
     end
   end
 
-  def self.test_base(basename, base, tests)
-    specify ".#{basename} { ... } sets the inspect to base #{base} within the block" do
-      tests.each do |int, (dec_inspect, base_inspect)|
-        expect(int.inspect).to eq dec_inspect
-        rin.__send__ basename do
-          expect(int.inspect).to eq base_inspect
+  describe 'named bases' do
+    def self.test_named_base(basename, base, tests)
+      specify ".#{basename} { ... } sets the inspect to base #{base} within the block" do
+        tests.each do |int, (dec_inspect, base_inspect)|
+          expect(int.inspect).to eq dec_inspect
+          rin.__send__ basename do
+            expect(int.inspect).to eq base_inspect
+          end
+          expect(int.inspect).to eq dec_inspect
         end
-        expect(int.inspect).to eq dec_inspect
+      end
+
+      specify ".#{basename}! sets the inspect to #{base} permanently" do
+        tests.each do |int, (dec_inspect, base_inspect)|
+          expect(int.inspect).to eq dec_inspect
+          rin.__send__ "#{basename}!"
+          expect(int.inspect).to eq base_inspect
+          rin.dec!
+        end
       end
     end
 
-    specify ".#{basename}! sets the inspect to #{base} permanently" do
-      tests.each do |int, (dec_inspect, base_inspect)|
-        expect(int.inspect).to eq dec_inspect
-        rin.__send__ "#{basename}!"
-        expect(int.inspect).to eq base_inspect
-        rin.dec!
-      end
-    end
+    test_named_base 'hex', 16, 15 => ['15', 'F']
+    test_named_base 'oct',  8, 15 => ['15', '17']
+    test_named_base 'bin',  2, 10 => ['10', '1010']
+    test_named_base 'dec', 10, 15 => ['15', '15']
   end
-
-  test_base 'hex', 16, 15 => ['15', 'F']
-  test_base 'oct',  8, 15 => ['15', '17']
-  test_base 'bin',  2, 10 => ['10', '1010']
-  test_base 'dec', 10, 15 => ['15', '15']
 
   it 'exposes the current base' do
     expect(rin.base).to eq 10
