@@ -59,8 +59,13 @@ RSpec.describe 'rin' do
     expect(rin.hex { 'zomg' }).to eq 'zomg'
   end
 
-  it 'works for bignums'
+  it 'works for bignums' do
+    n = 10**1000
+    expect(n).to be_a_kind_of Bignum
+    expect(rin.hex { n.inspect })
+      .to eq n.to_s(16).upcase
+  end
+
   it 'supports nested overrides'
   it 'can be enabled and disabled'
-
 end

@@ -9,11 +9,13 @@ class Rin
 
   def initialize(base)
     @base = base
-    Fixnum.class_eval do
+    override = Proc.new do
       define_method :inspect do
         Rin.instance.inspect_num self
       end
     end
+    Fixnum.class_eval &override
+    Bignum.class_eval &override
   end
 
   # uhm... returns the base if no base is given
