@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/JoshCheek/rin.png?branch=master)](http://travis-ci.org/JoshCheek/rin)
+
 Rin: Inspects Ruby Integers
 ===========================
 
