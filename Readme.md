@@ -84,3 +84,4 @@ unless I use this much.
   * preferred format (eg uppercase/lowercase/whatev)
 * Support Ruby's executable arguments
 * Support `String#to_i`
+* Support `[1..100].map(&Rin.hex)`
