@@ -34,9 +34,6 @@ or to the base of the first argument to the script.
 ```sh
 $ ruby -rin -e 'p 15'
 0xF
-
-$ ruby -rin -e 'p 15' -8
-017
 ```
 
 
