@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-program      = ''
+program      = nil
 base         = 16
 print_result = true
 print_help   = false
@@ -21,23 +21,26 @@ ARGV.each do |arg|
 end
 
 if print_help
-  puts "Usage: rin [-base] [-P] [-h] program"
-  puts ""
-  puts "Synopsis:"
-  puts "  Inspects Ruby Integers"
-  puts ""
-  puts "Examples:"
-  puts "  $ rin '7+8'    # prints \"E\""
-  puts "  $ rin -8 '7+2' # prints \"11\""
-  puts "  Instead of printing, write to a file"
-  puts "    $ rin -P 'File.write \"out\", (7+8).inspect'"
-  puts ""
-  puts "Flags:"
-  puts "  -base sets the base to that number"
-  puts "  defaults to 16 (hex)"
-  puts "  eg: -2 for binary, -8 for octal"
-  puts ""
-  puts "  -P    turns off program result autoprinting"
+  $stdout.puts "Usage: rin [-base] [-P] [-h] program"
+  $stdout.puts ""
+  $stdout.puts "Synopsis:"
+  $stdout.puts "  Inspects Ruby Integers"
+  $stdout.puts ""
+  $stdout.puts "Examples:"
+  $stdout.puts "  $ rin '7+8'    # prints \"E\""
+  $stdout.puts "  $ rin -8 '7+2' # prints \"11\""
+  $stdout.puts "  Instead of printing, write to a file"
+  $stdout.puts "    $ rin -P 'File.write \"out\", (7+8).inspect'"
+  $stdout.puts ""
+  $stdout.puts "Flags:"
+  $stdout.puts "  -base sets the base to that number"
+  $stdout.puts "  defaults to 16 (hex)"
+  $stdout.puts "  eg: -2 for binary, -8 for octal"
+  $stdout.puts ""
+  $stdout.puts "  -P    turns off program result autoprinting"
+elsif !program
+  $stderr.puts "No code specified, run with -h for examples"
+  exit 1
 else
   require 'rin'
   rin.instance_eval { @base = base }

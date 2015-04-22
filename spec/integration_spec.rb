@@ -1,8 +1,5 @@
 require 'spec_helper'
 
-# error cases:
-#   no program
-#   invalid base
 spec_helpers = Module.new do
   def matcher_for(str_or_regex)
     case str_or_regex
@@ -52,6 +49,16 @@ RSpec.describe 'rin' do
   it 'prints help on -h and --help' do
     runs! 'rin', '-h',     out: /usage/i
     runs! 'rin', '--help', out: /usage/i
+  end
+
+  describe 'errors' do
+    it 'notifies you if you omit the program' do
+      runs! 'rin', '-8', '-P', status: 1,
+                               err:    /no code specified/i,
+                               out:    ''
+    end
+
+    # invalid base
   end
 end
 
